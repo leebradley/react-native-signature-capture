@@ -22,9 +22,8 @@ class SignatureCapture extends React.Component {
     onChange(event) {
         if (event.nativeEvent.draw){
             if (this.props.onDrawEvent) {
-                this.props.onDrawEvent({
-                    draw: event.nativeEvent.draw,
-                });
+                console.log(event.nativeEvent);
+                this.props.onDrawEvent(event.nativeEvent);
             }
         }
 

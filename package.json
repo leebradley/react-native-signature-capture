@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/RepairShopr/react-native-signature-capture#readme",
   "dependencies": {
-    "prop-types": "^15.5.10"
+    "prop-types": "^15.5.10",
+    "react": "^16.2.0"
   }
 }

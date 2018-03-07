@@ -8,6 +8,7 @@ import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
 
 import java.io.File;
@@ -215,6 +216,30 @@ public class RSSignatureCaptureMainView extends LinearLayout implements OnClickL
   @Override public void onDragged() {
     WritableMap event = Arguments.createMap();
     event.putBoolean("dragged", true);
+    ReactContext reactContext = (ReactContext) getContext();
+    reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(getId(), "topChange", event);
+
+  }
+
+  @Override public void onBezierDraw(float[] p, float startWidth, float endWidth) {
+    WritableMap event = Arguments.createMap();
+    event.putBoolean("draw", true);
+
+    WritableArray points = Arguments.createArray();
+    for (int i = 0; i < p.length; i++) {
+      float point = p[i];
+      if (Float.isNaN(point)) {
+        points.pushNull();
+      } else if (Float.isInfinite(point)) {
+        points.pushNull();
+      } else {
+        points.pushInt((int) point);
+      }
+    }
+
+    event.putArray("p", points);
+    event.putInt("startWidth", (int) startWidth);
+    event.putInt("endWidth", (int) endWidth);
     ReactContext reactContext = (ReactContext) getContext();
     reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(getId(), "topChange", event);
 

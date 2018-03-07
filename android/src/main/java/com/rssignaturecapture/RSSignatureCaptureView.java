@@ -56,6 +56,10 @@ public class RSSignatureCaptureView extends View {
 
 	public interface SignatureCallback {
 		void onDragged();
+		void onBezierDraw(
+			float[] p,
+			float startWidth,
+			float endWidth);
 	}
 
 	public RSSignatureCaptureView(Context context, SignatureCallback callback) {
@@ -146,6 +150,20 @@ public class RSSignatureCaptureView extends View {
 			// width calculation is based on the velocity between the Bezier's
 			// start and end mPoints.
 			addBezier(curve, mLastWidth, newWidth);
+
+			if (callback != null) {
+				float[] p = {
+					mPoints.get(1).x,
+					mPoints.get(1).y,
+					c2.x,
+					c2.y,
+					c3.x,
+					c3.y,
+					mPoints.get(2).x,
+					mPoints.get(2).y
+				};
+				callback.onBezierDraw(p, mLastWidth, newWidth);
+			}
 
 			mLastVelocity = velocity;
 			mLastWidth = newWidth;
