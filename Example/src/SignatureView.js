@@ -21,7 +21,8 @@ const modalViewStyle = {
 class SignatureView extends Component {
 
   static propTypes = {
-    onSave: PropTypes.func
+    onSave: PropTypes.func,
+    onDraw: PropTypes.func
   }
 
   constructor(props) {
@@ -52,6 +53,7 @@ class SignatureView extends Component {
               style={{flex: 1, width: '100%'}}
             onDragEvent={this._onDragEvent.bind(this)}
             onSaveEvent={this._onSaveEvent.bind(this)}
+            onDrawEvent={this._onDrawEvent.bind(this)}
           />
         </View>
       </Modal>
@@ -75,6 +77,11 @@ class SignatureView extends Component {
     //result.encoded - for the base64 encoded png
     //result.pathName - for the file path name
     this.props.onSave && this.props.onSave(result);
+  }
+
+  _onDrawEvent(result) {
+    //result.draw - for bezier curve
+    this.props.onDraw && this.props.onDraw(result);
   }
 }
 

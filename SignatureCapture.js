@@ -20,6 +20,13 @@ class SignatureCapture extends React.Component {
     }
 
     onChange(event) {
+        if (event.nativeEvent.draw){
+            if (this.props.onDrawEvent) {
+                this.props.onDrawEvent({
+                    draw: event.nativeEvent.draw,
+                });
+            }
+        }
 
         if(event.nativeEvent.pathName){
 
@@ -55,6 +62,14 @@ class SignatureCapture extends React.Component {
             let sub = DeviceEventEmitter.addListener(
                 'onDragEvent',
                 this.props.onDragEvent
+            );
+            this.subscriptions.push(sub);
+        }
+
+        if (this.props.onDrawEvent) {
+            let sub = DeviceEventEmitter.addListener(
+                'onDrawEvent',
+                this.props.onDrawEvent
             );
             this.subscriptions.push(sub);
         }
